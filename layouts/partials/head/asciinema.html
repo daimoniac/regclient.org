@@ -1,0 +1,8 @@
+{{- if ne (.Page.Store.Get "AsciinemaShortcode") nil }}
+  {{- with resources.Get "js/asciinema-player.min.js" | fingerprint "sha256" }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- end }}
+  {{- with resources.Get "css/asciinema-player.css" | resources.Minify | fingerprint "sha256" }}
+    <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" />
+  {{- end }}
+{{- end }}
