@@ -65,6 +65,13 @@ util-version-check: ## check all dependencies for updates
 util-version-update: ## update versions on all dependencies
 	$(VER_BUMP) update
 
+util-asciinema-update: ## update the asciinema player
+	# TODO(bmitch): migrate logic into version-bump
+	curl -sSL -o assets/css/asciinema-player.css \
+	  https://github.com/asciinema/asciinema-player/releases/latest/download/asciinema-player.css
+	curl -sSL -o assets/js/asciinema-player.min.js \
+	  https://github.com/asciinema/asciinema-player/releases/latest/download/asciinema-player.min.js
+
 .PHONY: clean
 clean:
 	rm -rf themes public

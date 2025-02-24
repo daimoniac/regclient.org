@@ -10,6 +10,10 @@ date: 2025-01-01
 See the [CLI Reference](/cli/regctl/) for a full list of commands and and their usage.
 All `regctl` commands have a `--help` flag that shows available child commands, usage, flags, and often contain examples.
 
+## Demo
+
+{{< asciinema src="/casts/regctl-demo.cast" cols=100 rows=26 autoPlay=true loop=true >}}
+
 ## Configuring Registries
 
 Registries you access may have different configurations, including login credentials, TLS, and mirrors.

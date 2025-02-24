@@ -1,0 +1,30 @@
+{{- /*
+  Example usage (remove the added space around the brackets): { { < asciinema src="/casts/demo.cast" cols=100 rows=26 autoPlay=true loop=true > } }
+  Store casts in "/static/casts" or similar directory.
+  Options for the player are documented at: https://docs.asciinema.org/manual/player/options/
+  */ -}}
+
+{{- if eq (.Page.Store.Get "AsciinemaShortcode") nil }}
+  {{- with resources.Get "js/asciinema-player.min.js" | fingerprint "sha256" }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- end }}
+  {{- with resources.Get "css/asciinema-player.css" | resources.Minify | fingerprint "sha256" }}
+    <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" />
+  {{- end }}
+  {{- .Page.Store.Set "AsciinemaShortcode" 0 }}
+{{- end }}
+{{- $time := .Page.Store.Get "AsciinemaShortcode" }}
+{{- .Page.Store.Add "AsciinemaShortcode" 1 }}
+{{- $mergedParams := merge $.Site.Params.asciinema.defaults .Params -}}
+
+<div id="demo{{ $time }}"></div>
+<script>
+AsciinemaPlayer.create({{ .Get "src" }}, document.getElementById('demo{{ $time }}'), {
+{{ range $key, $value := $mergedParams }}
+  {{- if ne $key "src" }}
+    {{- $key }}: {{ $value }},
+  {{- end }}
+{{- end }}
+});
+</script>
+<noscript><blockquote><p>To run this asciicast without javascript, use <code>asciinema play {{.Get "src" | absURL }}</code> with <a href="https://asciinema.org/">Asciinema</a></p></blockquote></noscript>
