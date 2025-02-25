@@ -85,6 +85,38 @@ creds:
 
 For `regctl`, use `regctl registry set --repo-auth gcr.io`.
 
+## How do I use HTTP proxies with regclient libraries and tools?
+
+regclient uses Go's built-in [httpproxy](https://pkg.go.dev/golang.org/x/net/http/httpproxy) environment based proxy configuration.
+Three environment variables are used for this, `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY`, each of which can also be all lower case.
+
+- `HTTP_PROXY`: URL to send http requests.
+  When using credentials, the URL will take the form `http://user:pass@proxy.example.org[:port]/`, e.g. `http://joe:secret@proxy.example.org:9999`.
+- `HTTPS_PROXY`: URL to send https requests.
+  This URL is frequently the same as the above `HTTP_PROXY` variable, including the http scheme, e.g. `http://proxy.example.org/`, not `https://proxy.example.org/`.
+- `NO_PROXY`: comma-separated values specifying hosts that should be excluded from proxying.
+  Each value is represented by an IP address prefix (`1.2.3.4`), an IP address prefix in CIDR notation (`1.2.3.4/8`), a domain name, or a special DNS label (`*`).
+  An IP address prefix and domain name can also include a literal port number (`1.2.3.4:80`).
+
+  A domain name matches that name and all subdomains.
+  A domain name with a leading "." matches subdomains only.
+  For example `foo.com` matches `foo.com` and `bar.foo.com`; `.y.com` matches `x.y.com` but not `y.com`.
+
+  A single asterisk (`*`) indicates that no proxying should be done.
+  A best effort is made to parse the string and errors are ignored.
+
+An example configuration looks like:
+
+```shell
+export HTTP_PROXY=http://proxy.example.org:1234/
+export HTTPS_PROXY=http://proxy.example.org:1234/
+export NO_PROXY=example.org,10.10.0.0/16
+regctl image copy ghcr.io/regclient/regsync registry.example.org/regclient/regsync
+```
+
+When writing Go programs using regclient as a library, ensure the [`http.Client`](https://pkg.go.dev/net/http#Client) has the `Transport` set to a `nil` or to [DefaultTransport](https://pkg.go.dev/net/http#DefaultTransport), or the provided Transport has the [`Proxy`](https://pkg.go.dev/net/http#Transport) configured.
+This is the default when regclient is not initialized with [WithRegOpts](https://pkg.go.dev/github.com/regclient/regclient#WithRegOpts) and [WithHTTPClient](https://pkg.go.dev/github.com/regclient/regclient/scheme/reg#WithHTTPClient).
+
 ## Specify the windows OS Version as a platform
 
 The platform parsing in regclient will default to your local windows version when the OS and architecture matches.
