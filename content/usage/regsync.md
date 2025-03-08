@@ -47,9 +47,9 @@ sync:
       - "latest"
       - "edge"
       - "3"
-      - "3.\\d+"
+      - "3\\.\\d+"
       deny:
-      - "3.0" # deny can be used to remove matches from the allow list
+      - "3\\.0" # deny can be used to remove matches from the allow list
   - source: ghcr.io/regclient/regctl
     target: registry.example.org/regclient/regctl
     type: repository
