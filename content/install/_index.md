@@ -12,6 +12,7 @@ date: 2025-01-01
 - [Reproducible Builds](#reproducible-builds)
 - [Community Maintained Packages](#community-maintained-packages)
   - [Brew](#brew)
+  - [RPM](#rpm)
   - [Snap](#snap)
   - [Wolfi](#wolfi)
 
@@ -192,6 +193,16 @@ The following methods to install regclient are maintained by community contribut
 brew install regclient
 ```
 
+### RPM
+
+RHEL / Centos / Rocky / Fedora
+
+<https://yum.jc21.com>
+
+```shell
+dnf install regclient
+```
+
 ### Snap
 
 <https://snapcraft.io/regclient>
@@ -207,3 +218,4 @@ snap install regclient
 ```shell
 apk add regclient
 ```
+
