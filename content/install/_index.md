@@ -181,6 +181,14 @@ regctl image digest ocidir://output/regbot:alpine
 regctl image digest ghcr.io/regclient/regbot:edge-alpine
 ```
 
+To verify an arbitrary image, a convenience shell script is available:
+
+```shell
+./build/reproduce.sh $image # e.g. "ghcr.io/regclient/regctl:v0.8.1"
+```
+
+This will switch the git repo to a matching commit, perform the build of both the scratch and alpine variants of the requested image, and verify the digest matches.
+
 ## Community Maintained Packages
 
 The following methods to install regclient are maintained by community contributors.
