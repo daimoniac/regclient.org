@@ -1,20 +1,26 @@
 ---
-title: regctl registry
+title: regctl registry whoami
 layout: single
 warning: Auto generated content
 ---
 
 ## Synopsis
 
-manage registries
+Displays the username for a given registry.
 
-## Available Commands
+```shell
+regctl registry whoami [registry]
+```
 
-- [regctl registry config](./config)
-- [regctl registry login](./login)
-- [regctl registry logout](./logout)
-- [regctl registry set](./set)
-- [regctl registry whoami](./whoami)
+## Examples
+
+```shell
+# show the login on Docker Hub
+regctl registry whoami
+
+# show the login on another registry
+regctl registry whoami registry.example.org
+```
 
 ## Options from parent commands
 

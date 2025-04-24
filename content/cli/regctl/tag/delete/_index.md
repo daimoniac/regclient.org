@@ -13,7 +13,7 @@ by pushing a unique dummy manifest and deleting that by digest.
 If the registry does not support the delete API, the dummy manifest will remain.
 
 ```shell
-regctl tag delete <image_ref>
+regctl tag delete <image_ref> [flags]
 ```
 
 ## Aliases
@@ -27,6 +27,12 @@ regctl tag delete <image_ref>
 ```shell
 # delete a tag
 regctl tag delete registry.example.org/repo:v42
+```
+
+## Options
+
+```text
+      --ignore-missing   Ignore errors if tag is missing
 ```
 
 ## Options from parent commands

@@ -17,13 +17,14 @@ regsync once [flags]
 ## Options
 
 ```text
-      --missing   Only copy tags that are missing on target
+      --abort-on-error   Immediately abort on any errors
+  -c, --config string    Config file
+      --missing          Only copy tags that are missing on target
 ```
 
 ## Options from parent commands
 
 ```text
-  -c, --config string        Config file
       --logopt stringArray   Log options
   -v, --verbosity string     Log level (trace, debug, info, warn, error) (default "INFO")
 ```

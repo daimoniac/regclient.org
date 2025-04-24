@@ -22,6 +22,9 @@ regctl manifest head <image_ref> [flags]
 # show the digest for an image
 regctl manifest head alpine
 
+# "regctl image digest" is an alias
+regctl image digest alpine
+
 # show the digest for a specific platform (this will perform a GET request)
 regctl manifest head alpine --platform linux/arm64
 
@@ -34,7 +37,7 @@ regctl manifest head alpine --format raw-headers
 ```text
       --format string     Format output with go template syntax (use "raw-body" for the original manifest)
   -p, --platform string   Specify platform (e.g. linux/amd64 or local, requires a get request)
-      --require-digest    Fallback to get request if digest is not received
+      --require-digest    Fallback to a GET request if digest is not received
       --require-list      Fail if manifest list is not received
 ```
 

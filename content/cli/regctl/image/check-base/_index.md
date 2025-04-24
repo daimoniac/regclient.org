@@ -12,7 +12,6 @@ If the digest is available, this checks if that matches the base name.
 If the digest is not available, layers of each manifest are compared.
 If the layers match, the config (history and roots) are optionally compared.	
 If the base image does not match, the command exits with a non-zero status.
-Use "-v info" to see more details.
 
 ```shell
 regctl image check-base <image_ref> [flags]
@@ -22,7 +21,12 @@ regctl image check-base <image_ref> [flags]
 
 ```shell
 # report if base image has changed using annotations
-regctl image check-base ghcr.io/regclient/regctl:alpine -v info
+regctl image check-base ghcr.io/regclient/regctl:alpine
+
+# suppress the normal output with --quiet for scripts
+if ! regctl image check-base ghcr.io/regclient/regctl:alpine --quiet; then
+  echo build a new image here
+fi
 ```
 
 ## Options
@@ -32,6 +36,7 @@ regctl image check-base ghcr.io/regclient/regctl:alpine -v info
       --digest string     Base image digest (checks if digest matches base)
       --no-config         Skip check of config history
   -p, --platform string   Specify platform (e.g. linux/amd64 or local)
+      --quiet             Do not output to stdout
 ```
 
 ## Options from parent commands

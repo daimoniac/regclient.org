@@ -14,6 +14,7 @@ regctl artifact put <reference> [flags]
 
 ## Aliases
 
+- create
 - push
 
 ## Examples

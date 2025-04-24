@@ -9,13 +9,18 @@ warning: Auto generated content
 Show the config
 
 ```shell
-regsync config
+regsync config [flags]
+```
+
+## Options
+
+```text
+  -c, --config string   Config file
 ```
 
 ## Options from parent commands
 
 ```text
-  -c, --config string        Config file
       --logopt stringArray   Log options
   -v, --verbosity string     Log level (trace, debug, info, warn, error) (default "INFO")
 ```

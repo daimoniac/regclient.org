@@ -16,6 +16,7 @@ regctl index create <image_ref> [flags]
 
 - init
 - new
+- put
 
 ## Examples
 

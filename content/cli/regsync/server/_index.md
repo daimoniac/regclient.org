@@ -9,13 +9,19 @@ warning: Auto generated content
 Sync registries according to the configuration.
 
 ```shell
-regsync server
+regsync server [flags]
+```
+
+## Options
+
+```text
+      --abort-on-error   Immediately abort on any errors
+  -c, --config string    Config file
 ```
 
 ## Options from parent commands
 
 ```text
-  -c, --config string        Config file
       --logopt stringArray   Log options
   -v, --verbosity string     Log level (trace, debug, info, warn, error) (default "INFO")
 ```
