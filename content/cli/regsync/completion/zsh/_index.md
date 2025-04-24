@@ -42,7 +42,6 @@ regsync completion zsh [flags]
 ## Options from parent commands
 
 ```text
-  -c, --config string        Config file
       --logopt stringArray   Log options
   -v, --verbosity string     Log level (trace, debug, info, warn, error) (default "INFO")
 ```

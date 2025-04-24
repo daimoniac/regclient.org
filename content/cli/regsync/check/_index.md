@@ -12,13 +12,19 @@ No jobs are run in parallel, and the command returns after any error or last
 sync step is finished.
 
 ```shell
-regsync check
+regsync check [flags]
+```
+
+## Options
+
+```text
+      --abort-on-error   Immediately abort on any errors
+  -c, --config string    Config file
 ```
 
 ## Options from parent commands
 
 ```text
-  -c, --config string        Config file
       --logopt stringArray   Log options
   -v, --verbosity string     Log level (trace, debug, info, warn, error) (default "INFO")
 ```

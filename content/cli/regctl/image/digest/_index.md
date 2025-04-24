@@ -6,7 +6,7 @@ warning: Auto generated content
 
 ## Synopsis
 
-show digest for pinning, same as "manifest digest"
+Shows the digest or headers from an http manifest head request.
 
 ```shell
 regctl image digest <image_ref> [flags]
@@ -15,14 +15,25 @@ regctl image digest <image_ref> [flags]
 ## Examples
 
 ```shell
-# get the digest for the latest regctl image
-regctl image digest ghcr.io/regclient/regctl
+# show the digest for an image
+regctl manifest head alpine
+
+# "regctl image digest" is an alias
+regctl image digest alpine
+
+# show the digest for a specific platform (this will perform a GET request)
+regctl manifest head alpine --platform linux/arm64
+
+# show all headers for the request
+regctl manifest head alpine --format raw-headers
 ```
 
 ## Options
 
 ```text
+      --format string     Format output with go template syntax (use "raw-body" for the original manifest)
   -p, --platform string   Specify platform (e.g. linux/amd64 or local, requires a get request)
+      --require-digest    Fallback to a GET request if digest is not received (default true)
       --require-list      Fail if manifest list is not received
 ```
 

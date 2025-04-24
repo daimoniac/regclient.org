@@ -25,17 +25,23 @@ regctl image delete <image_ref> [flags]
 ## Examples
 
 ```shell
-# delete a specific image
-regctl image delete registry.example.org/repo@sha256:fab3c890d0480549d05d2ff3d746f42e360b7f0e3fe64bdf39fc572eab94911b
+# delete a manifest by digest
+regctl manifest delete registry.example.org/repo@sha256:fab3c890d0480549d05d2ff3d746f42e360b7f0e3fe64bdf39fc572eab94911b
 
-# delete a specific image by tag (including all other tags to the same image)
-regctl image delete --force-tag-dereference registry.example.org/repo:v123
+# delete the digest referenced by a tag (this is unsafe)
+regctl manifest delete registry.example.org/repo:v1.2.3 --force-tag-dereference
+
+# delete the digest and all manifests with a subject referencing the digest
+regctl manifest delete --referrers \
+  registry.example.org/repo@sha256:fab3c890d0480549d05d2ff3d746f42e360b7f0e3fe64bdf39fc572eab94911b
 ```
 
 ## Options
 
 ```text
       --force-tag-dereference   Dereference the a tag to a digest, this is unsafe
+      --ignore-missing          Ignore errors if manifest is missing
+      --referrers               Check for referrers, recommended when deleting artifacts
 ```
 
 ## Options from parent commands

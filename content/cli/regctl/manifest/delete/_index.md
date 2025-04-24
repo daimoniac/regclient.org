@@ -40,6 +40,7 @@ regctl manifest delete --referrers \
 
 ```text
       --force-tag-dereference   Dereference the a tag to a digest, this is unsafe
+      --ignore-missing          Ignore errors if manifest is missing
       --referrers               Check for referrers, recommended when deleting artifacts
 ```
 

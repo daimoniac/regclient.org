@@ -21,7 +21,6 @@ More details at <https://github.com/regclient/regclient>
 ## Options
 
 ```text
-  -c, --config string        Config file
       --logopt stringArray   Log options
   -v, --verbosity string     Log level (trace, debug, info, warn, error) (default "INFO")
 ```

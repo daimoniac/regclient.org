@@ -15,8 +15,14 @@ regctl image manifest <image_ref> [flags]
 ## Examples
 
 ```shell
-# return the manifest of the golang image
-regctl image manifest golang
+# retrieve the manifest (pretty formatting)
+regctl manifest get alpine
+
+# show the original manifest body for the local platform
+regctl manifest get alpine --format raw-body --platform local
+
+# retrieve the manifest for a specific windows version
+regctl manifest get golang --platform windows/amd64,osver=10.0.17763.4974
 ```
 
 ## Options
@@ -24,7 +30,7 @@ regctl image manifest golang
 ```text
       --format string     Format output with go template syntax (use "raw-body" for the original manifest) (default "{{printPretty .}}")
   -p, --platform string   Specify platform (e.g. linux/amd64 or local)
-      --require-list      Fail if manifest list is not received
+      --require-list      Deprecated: Fail if manifest list is not received
 ```
 
 ## Options from parent commands
