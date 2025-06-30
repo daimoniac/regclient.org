@@ -12,6 +12,7 @@ date: 2025-01-01
 - [Reproducible Builds](#reproducible-builds)
 - [Community Maintained Packages](#community-maintained-packages)
   - [Brew](#brew)
+  - [MacPorts](#macports)
   - [RPM](#rpm)
   - [Snap](#snap)
   - [Wolfi](#wolfi)
@@ -199,6 +200,14 @@ The following methods to install regclient are maintained by community contribut
 
 ```shell
 brew install regclient
+```
+
+### MacPorts
+
+<https://ports.macports.org/port/regclient>
+
+```shell
+sudo port install regclient
 ```
 
 ### RPM
