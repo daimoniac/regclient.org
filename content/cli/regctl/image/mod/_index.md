@@ -59,41 +59,41 @@ regctl image mod registry.example.org/regctl:v0.5.1-alpine \
 ## Options
 
 ```text
-      --annotation stringArray        set an annotation (name=value, omit value to delete, prefix with platform list [p1,p2] or [*] for all images) (default )
-      --annotation-base stringArray   set base image annotations (image/name:tag,sha256:digest) (default )
-      --annotation-promote            promote common annotations from child images to index (default )
-      --buildarg-rm string            delete a build arg (default "")
-      --buildarg-rm-regex string      delete a build arg with a regex value (default "")
-      --config-cmd string             set command in the config (json array or string, empty string to delete) (default "")
-      --config-entrypoint string      set entrypoint in the config (json array or string, empty string to delete) (default "")
-      --config-platform string        set platform on the config (not recommended for an index of multiple images) (default "")
-      --config-time string            set timestamp for the config (default "")
+      --annotation stringArray        set an annotation (name=value, omit value to delete, prefix with platform list [p1,p2] or [*] for all images)
+      --annotation-base stringArray   set base image annotations (image/name:tag,sha256:digest)
+      --annotation-promote            promote common annotations from child images to index
+      --buildarg-rm string            delete a build arg
+      --buildarg-rm-regex string      delete a build arg with a regex value
+      --config-cmd string             set command in the config (json array or string, empty string to delete)
+      --config-entrypoint string      set entrypoint in the config (json array or string, empty string to delete)
+      --config-platform string        set platform on the config (not recommended for an index of multiple images)
+      --config-time string            set timestamp for the config
       --create string                 Create image or tag
-      --data-max stringArray          sets or removes descriptor data field (size in bytes) (default )
-      --digest-algo stringArray       change the digest algorithm (sha256, sha512) (default )
-      --env stringArray               set an environment variable (name=value, omit value to delete, prefix with platform list [p1,p2] for subset of images) (default )
-      --expose-add stringArray        add an exposed port (default )
-      --expose-rm stringArray         delete an exposed port (default )
-      --external-urls-rm              remove external url references from layers (first copy image with "--include-external") (default )
-      --file-tar-time stringArray     timestamp for contents of a tar file within a layer, set filename=${name} with time options (default )
-      --label stringArray             set an label (name=value, omit value to delete, prefix with platform list [p1,p2] for subset of images) (default )
-      --label-to-annotation           set annotations from labels (default )
-      --layer-add string              add a new layer (tar=file,dir=directory,platform=val) (default "")
-      --layer-compress string         change layer compression (gzip, none, zstd) (default "")
-      --layer-rm-created-by string    delete a layer based on history (created by string is a regex) (default "")
-      --layer-rm-index uint           delete a layer from an image (index begins at 0) (default )
-      --layer-strip-file string       delete a file or directory from all layers (default "")
-      --layer-time string             set timestamp for the layer contents (default "")
-      --rebase                        rebase an image using OCI annotations (default )
-      --rebase-ref string             rebase an image with base references (base:old,base:new) (default "")
+      --data-max stringArray          sets or removes descriptor data field (size in bytes)
+      --digest-algo stringArray       change the digest algorithm (sha256, sha512)
+      --env stringArray               set an environment variable (name=value, omit value to delete, prefix with platform list [p1,p2] for subset of images)
+      --expose-add stringArray        add an exposed port
+      --expose-rm stringArray         delete an exposed port
+      --external-urls-rm              remove external url references from layers (first copy image with "--include-external")
+      --file-tar-time stringArray     timestamp for contents of a tar file within a layer, set filename=${name} with time options
+      --label stringArray             set an label (name=value, omit value to delete, prefix with platform list [p1,p2] for subset of images)
+      --label-to-annotation           set annotations from labels
+      --layer-add string              add a new layer (tar=file,dir=directory,platform=val)
+      --layer-compress string         change layer compression (gzip, none, zstd)
+      --layer-rm-created-by string    delete a layer based on history (created by string is a regex)
+      --layer-rm-index uint           delete a layer from an image (index begins at 0)
+      --layer-strip-file string       delete a file or directory from all layers
+      --layer-time string             set timestamp for the layer contents
+      --rebase                        rebase an image using OCI annotations
+      --rebase-ref string             rebase an image with base references (base:old,base:new)
       --replace                       Replace tag (ignored when "create" is used)
-      --reproducible                  fix tar headers for reproducibility (default )
-      --time string                   set timestamp for both the config and layers (default "")
-      --to-docker                     convert to Docker schema2 media types (default )
-      --to-oci                        convert to OCI media types (default )
-      --to-oci-referrers              convert to OCI referrers (default )
-      --volume-add stringArray        add a volume definition (default )
-      --volume-rm stringArray         delete a volume definition (default )
+      --reproducible                  fix tar headers for reproducibility
+      --time string                   set timestamp for both the config and layers
+      --to-docker                     convert to Docker schema2 media types
+      --to-oci                        convert to OCI media types
+      --to-oci-referrers              convert to OCI referrers
+      --volume-add stringArray        add a volume definition
+      --volume-rm stringArray         delete a volume definition
 ```
 
 ## Options from parent commands
