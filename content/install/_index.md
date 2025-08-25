@@ -41,6 +41,32 @@ xattr -d com.apple.quarantine regctl
 ## Running as a Container
 
 You can run `regctl`, `regsync`, and `regbot` in a container.
+Both Docker Hub and ghcr.io repositories are maintained for each application:
+
+- `regctl`:
+  - `docker.io/regclient/regctl`
+  - `ghcr.io/regclient/regctl`
+- `regsync`:
+  - `docker.io/regclient/regsync`
+  - `ghcr.io/regclient/regsync`
+- `regbot`:
+  - `docker.io/regclient/regbot`
+  - `ghcr.io/regclient/regbot`
+
+The following tags can each be used in any of the above repos:
+
+- `latest`: Most recent release based on scratch.
+- `alpine`: Most recent release based on alpine.
+- `edge`: Most recent commit to the main branch based on scratch.
+- `edge-alpine`: Most recent commit to the main branch based on alpine.
+- `$ver`: Specific release based on scratch (see below for semver details).
+- `$ver-alpine`: Specific release based on alpine (see below for semver details).
+
+Semver version values for `$ver` are based on the [GitHub tags](https://github.com/regclient/regclient/tags).
+These versions also tag major and minor versions, e.g. a release for `v0.7.1` will also tag `v0.7` and `v0`.
+
+Alpine based images are useful for CI pipelines that expect the container to include a `/bin/sh`.
+In addition, these alpine based images also include the `ecr-login` and `gcr` credential helpers.
 
 For `regctl` (include a `-t` for any commands that require a tty, e.g. `registry login`):
 
@@ -79,9 +105,6 @@ docker container run $opts -i --rm --net host \
   -v /etc/docker/certs.d:/etc/docker/certs.d:ro \
   ghcr.io/regclient/regctl:latest "$@"
 ```
-
-Images are also included with an alpine base, which are useful for CI pipelines that expect the container to include a `/bin/sh`.
-These alpine based images also include the `ecr-login` and `gcr` credential helpers.
 
 ## Building From Source
 
