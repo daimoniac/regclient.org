@@ -258,4 +258,3 @@ snap install regclient
 ```shell
 apk add regclient
 ```
-
