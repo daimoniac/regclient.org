@@ -43,13 +43,13 @@ sync:
     target: registry.example.org/library/alpine
     type: repository
     tags:
+      semverRange:
+      - ">=3.18.0"
       allow:
-      - "latest"
+      - "latest" # will be added to the findings of semVerRange
       - "edge"
-      - "3"
-      - "3\\.\\d+"
       deny:
-      - "3\\.0" # deny can be used to remove matches from the allow list
+      - '3\.20.\d+' # deny can be combined with semverRange and allow to filter afterwards
   - source: ghcr.io/regclient/regctl
     target: registry.example.org/regclient/regctl
     type: repository
@@ -235,10 +235,11 @@ sync:
     target: registry.example.org/regclient/regctl
     type: repository
     tags:
+      semverRange:
+      - ">=0.9.0"
       allow:
       - "latest"
       - "edge"
-      - "v[0-9\\.]+"
     referrers: true
     schedule: "30 01 * * *"
 ```
@@ -336,7 +337,8 @@ sync:
       Regex to deny specific repositories.
 
   - `tags` (optional, object):
-    Implements filters on tags for "registry" and "repository" types
+    Implements filters on tags for "registry" and "repository" types.
+    Supports both regex-based filtering and semantic versioning (semver) constraints.
     Regex values are automatically bound to the beginning and ending of each string (`^` and `$`).
 
     - `allow` (optional, array of strings):
@@ -344,6 +346,12 @@ sync:
 
     - `deny` (optional, array of strings):
       Regex to deny specific tags.
+
+    - `semverRange` (optional, array of strings):
+      Semantic version constraints to filter tags by version ranges.
+      When specified, tags are parsed as semantic versions and only those matching at least one constraint are included.
+      Multiple ranges use OR logic (a tag matches if it satisfies ANY range).
+      See [Semantic Version Filtering](#semantic-version-filtering-for-tags) for syntax details.
 
 ### User Extensions
 
@@ -373,6 +381,144 @@ sync:
     target: registry.example.org/repo-c:latest
     type: image
     backup: *backup
+```
+
+## Semantic Version Filtering for Tags
+
+Regsync supports semantic versioning (semver) for filtering Docker image tags, similar to Renovate's version support. This allows you to sync only specific version ranges instead of relying solely on regex patterns.
+
+### Features
+
+- **Semantic Versioning (semver)**: Filter tags based on semver constraints
+- **Multiple Version Ranges**: Support for multiple version range constraints with OR logic
+- **Combined Filtering**: Use version ranges together with allow/deny regex patterns
+- **Auto-filtering**: Non-semver tags are automatically excluded when using semverRange
+- **Flexible Formats**: Handles standard semver, v-prefixed tags, and pre-release versions
+
+#### Basic Comparisons
+
+| Syntax | Description |
+|--------|-------------|
+| `= 1.2.3` | Exactly version 1.2.3 |
+| `!= 1.2.3` | Not version 1.2.3 |
+| `> 1.2.3` | Greater than 1.2.3 |
+| `< 1.2.3` | Less than 1.2.3 |
+| `>= 1.2.3` | Greater than or equal to 1.2.3 |
+| `<= 1.2.3` | Less than or equal to 1.2.3 |
+
+#### Range Constraints
+
+| Syntax | Description |
+|--------|-------------|
+| `>=1.2.3 <2.0.0` | Version between 1.2.3 and 2.0.0 |
+| `>=1.2.3 <=2.0.0` | Version between 1.2.3 and 2.0.0 (inclusive) |
+| `1.2.3 - 2.0.0` | Same as >=1.2.3 <=2.0.0 (hyphen range) |
+
+#### Wildcard Constraints
+
+| Syntax | Description |
+|--------|-------------|
+| `1.2.*` | Any version starting with 1.2 |
+| `1.*` | Any version starting with 1 |
+| `*` | Any version |
+
+#### Tilde Constraint (Patch Updates)
+
+| Syntax | Description |
+|--------|-------------|
+| `~1.2.3` | Matches >=1.2.3 <1.3.0 (patch updates only) |
+| `~1.2` | Matches >=1.2.0 <1.3.0 |
+| `~1` | Matches >=1.0.0 <2.0.0 |
+
+#### Caret Constraint (Compatible Updates)
+
+| Syntax | Description |
+|--------|-------------|
+| `^1.2.3` | Matches >=1.2.3 <2.0.0 (compatible with 1.x) |
+| `^0.2.3` | Matches >=0.2.3 <0.3.0 (compatible with 0.2.x) |
+| `^0.0.3` | Matches >=0.0.3 <0.0.4 (compatible with 0.0.3) |
+
+### Supported Tag Formats
+
+The semver parser handles various tag formats:
+
+- `1.2.3` - Standard semver
+- `v1.2.3` - With 'v' prefix (automatically handled)
+- `1.2.3-alpha` - Pre-release versions
+- `1.2.3+build123` - Build metadata
+
+Tags that cannot be parsed as valid semver (like `latest`, `main`, `dev`) are automatically filtered out when using semverRange.
+
+### Filter Order
+
+When both version constraints and regex patterns are specified, filtering happens in this order:
+
+1. **Semantic Version Filtering** (if `semverRange` is specified)
+   - Tags are parsed as semantic versions
+   - Non-semver tags are automatically excluded
+   - Collect tags matching **ANY** of the version ranges (OR logic)
+
+2. **Allow List** (if specified)
+   - Collect tags matching at least one allow pattern
+
+3. **Union of Results**
+   - Combine the results from semverRange and allow patterns
+   - If only semverRange is specified, use those results
+   - If only allow is specified, use those results
+   - If both are specified, include tags from either filter
+
+4. **Deny List** (regex)
+   - Remove any tags matching a deny pattern from the union result
+
+### Usage Examples
+
+#### Example 1: Sync Only Major Version 1.x
+
+Sync only version 1.x releases:
+
+```yaml
+sync:
+  - source: docker.io/library/redis
+    target: registry.example.com/redis
+    type: repository
+    tags:
+      semverRange:
+        - "^1.0.0"
+```
+
+#### Example 2: Sync Multiple Major Versions
+
+Sync PostgreSQL LTS versions independently:
+
+```yaml
+sync:
+  - source: docker.io/library/postgres
+    target: registry.example.com/postgres
+    type: repository
+    tags:
+      semverRange:
+        - "^14.0.0"
+        - "^15.0.0"
+        - "^16.0.0"
+```
+
+#### Example 3: Exclude Pre-release Versions
+
+Sync specific ranges but exclude pre-release versions with regex:
+
+```yaml
+sync:
+  - source: docker.io/library/node
+    target: registry.example.com/node
+    type: repository
+    tags:
+      semverRange:
+        - ">=18.0.0 <19.0.0"
+        - ">=20.0.0"
+      deny:
+        - ".*-rc.*"
+        - ".*-beta.*"
+        - ".*-alpha.*"
 ```
 
 ## Templates
